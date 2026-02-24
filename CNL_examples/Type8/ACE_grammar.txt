@@ -1,0 +1,7 @@
+ACE grammar:
+Every common_use_space is a space
+    that has an area wide enough.
+
+ACE message: 
+Text could not be translated.
+

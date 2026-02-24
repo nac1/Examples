@@ -1,0 +1,4 @@
+Prompt 1:
+Write "All valid tracks must have two trackside walkways." You should create a full ontology in OWL Functional Syntax.
+
+Prompt 2:

@@ -1,0 +1,76 @@
+Prefix(:=<http://example.org/norms#>)
+Prefix(ifc:=<http://ifcowl.org/IFC2X3_TC1#>)
+Prefix(props:=<http://example.org/props#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(<http://example.org/norms/bridges-long-length>
+
+  ############################################
+  # Import IFC ontology (IFC2X3 ifcOWL by default)
+  ############################################
+  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
+
+  ############################################
+  # Declarations: classes
+  ############################################
+  Declaration(Class(:Bridge))
+  Declaration(Class(:LongBridge))
+
+  ############################################
+  # Data properties (aligned to previous patterns)
+  # - props:length_simple_property : numeric length
+  # - props:unit_simple_property   : unit string, expected "meters"
+  ############################################
+  Declaration(DataProperty(props:length_simple_property))
+  Declaration(DataProperty(props:unit_simple_property))
+
+  ############################################
+  # Map Bridge to IFC concept
+  # Note: If you later load an ifcOWL that defines ifc:IfcBridge (IFC4.3+),
+  # change the SubClassOf to use ifc:IfcBridge instead of ifc:IfcElement.
+  ############################################
+  SubClassOf(:Bridge ifc:IfcElement)
+
+  ############################################
+  # Data property characteristics
+  ############################################
+  FunctionalDataProperty(props:length_simple_property)
+  FunctionalDataProperty(props:unit_simple_property)
+
+  DataPropertyRange(props:length_simple_property xsd:decimal)
+  DataPropertyRange(props:unit_simple_property xsd:string)
+
+  ############################################
+  # Datatype restriction for "long" threshold
+  # (assumption: long >= 100.0 m)
+  ############################################
+  Declaration(Datatype(:MinLength_100))
+  DatatypeDefinition(:MinLength_100
+    DatatypeRestriction(xsd:decimal xsd:minInclusive "100.0"^^xsd:decimal)
+  )
+
+  ############################################
+  # Definition of LongBridge:
+  # LongBridge ≡ Bridge AND
+  #   length_simple_property some xsd:decimal[>=100.0] AND
+  #   unit_simple_property value "meters"
+  ############################################
+  EquivalentClasses(:LongBridge
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_simple_property :MinLength_100)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  ############################################
+  # Labels / documentation
+  ############################################
+  AnnotationAssertion(rdfs:label :Bridge "Bridge (mapped to ifc:IfcElement by default; set to ifc:IfcBridge for IFC4.3+)"@en)
+  AnnotationAssertion(rdfs:label :LongBridge "Bridge with long length (length ≥ 100.0 m, unit = meters)"@en)
+  AnnotationAssertion(rdfs:label props:length_simple_property "Length (decimal, meters)"@en)
+  AnnotationAssertion(rdfs:label props:unit_simple_property "Unit (string; expected 'meters')"@en)
+
+)

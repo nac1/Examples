@@ -1,0 +1,98 @@
+Prefix(:=<http://example.org/norms#>)
+Prefix(ifc:=<http://ifcowl.org/IFC2X3_TC1#>)
+Prefix(props:=<http://example.org/props#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(<http://example.org/norms/longbridge-example2>
+
+  ############################################
+  # Import IFC ontology (IFC 2x3 TC1)
+  ############################################
+  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
+
+  ############################################
+  # Class declarations
+  ############################################
+  Declaration(Class(:Bridge))
+  Declaration(Class(:LongBridgeCore))
+  Declaration(Class(:LongBridgeSupport))
+  Declaration(Class(:LongBridge))
+
+  ############################################
+  # Data-property declarations
+  ############################################
+  Declaration(DataProperty(props:length_core_simple_property))
+  Declaration(DataProperty(props:length_support_simple_property))
+  Declaration(DataProperty(props:unit_simple_property))
+
+  ############################################
+  # Mapping Bridge to IFC concept
+  # (generic mapping; switch to ifc:IfcBridge for IFC 4.3+)
+  ############################################
+  SubClassOf(:Bridge ifc:IfcElement)
+
+  ############################################
+  # Property characteristics and ranges
+  ############################################
+  FunctionalDataProperty(props:length_core_simple_property)
+  FunctionalDataProperty(props:length_support_simple_property)
+  FunctionalDataProperty(props:unit_simple_property)
+
+  DataPropertyRange(props:length_core_simple_property xsd:decimal)
+  DataPropertyRange(props:length_support_simple_property xsd:decimal)
+  DataPropertyRange(props:unit_simple_property xsd:string)
+
+  ############################################
+  # Datatype restrictions (OWL 2-compliant)
+  ############################################
+  Declaration(Datatype(:MinCoreLength_490))
+  DatatypeDefinition(:MinCoreLength_490
+    DatatypeRestriction(xsd:decimal xsd:minInclusive "490.0"^^xsd:decimal)
+  )
+
+  Declaration(Datatype(:MinSupportLength_215))
+  DatatypeDefinition(:MinSupportLength_215
+    DatatypeRestriction(xsd:decimal xsd:minInclusive "215.0"^^xsd:decimal)
+  )
+
+  ############################################
+  # Define component classes
+  ############################################
+  EquivalentClasses(:LongBridgeCore
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_core_simple_property :MinCoreLength_490)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  EquivalentClasses(:LongBridgeSupport
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_support_simple_property :MinSupportLength_215)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  ############################################
+  # Composite class definition
+  # LongBridge ≡ LongBridgeCore ⊓ LongBridgeSupport
+  ############################################
+  EquivalentClasses(:LongBridge
+    ObjectIntersectionOf(:LongBridgeCore :LongBridgeSupport)
+  )
+
+  ############################################
+  # Labels / documentation
+  ############################################
+  AnnotationAssertion(rdfs:label :Bridge "Bridge"@en)
+  AnnotationAssertion(rdfs:label :LongBridgeCore "Bridge core length ≥ 490 m"@en)
+  AnnotationAssertion(rdfs:label :LongBridgeSupport "Bridge support span ≥ 215 m"@en)
+  AnnotationAssertion(rdfs:label :LongBridge "Long bridge (core ≥ 490 m and support ≥ 215 m; unit = meters)"@en)
+  AnnotationAssertion(rdfs:label props:length_core_simple_property "Core-length property (decimal meters)"@en)
+  AnnotationAssertion(rdfs:label props:length_support_simple_property "Support-length property (decimal meters)"@en)
+  AnnotationAssertion(rdfs:label props:unit_simple_property "Unit property (string; expected 'meters')"@en)
+
+)

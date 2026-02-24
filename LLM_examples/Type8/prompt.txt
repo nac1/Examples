@@ -1,0 +1,57 @@
+Prompt 1:
+Write and represent "Bridges with a long length" in OWL Functional Syntax. You should create a full ontology.
+
+Result 1:
+ontology1.owl
+
+------------------------------------------------------------------------------------------------------------
+core & support
+------------------------------------------------------------------------------------------------------------
+Prompt 2:
+Based on the ontology1.owl example, I would like to redefine the ontology using two classes: LongBridgeCore and LongBridgeSupport, with cardinality constraints ≥490 and ≥215, respectively. Please create a new ontology in OWL Functional Syntax.
+
+Result 2:
+ontology2.owl
+
+Prompt 3:
+A correction here, LongBridgeCore or LongBridgeSupport instances should be LongBridge. Using LongBridgeCore ⊓ LongBridgeSupport, the resoner not found an instances as LongBridge because should be in both classes in Core and Support.
+
+Result 3:
+ontology3.owl
+
+------------------------------------------------------------------------------------------------------------
+Alfa-cut
+------------------------------------------------------------------------------------------------------------
+Prompt 4:
+
+Based on the ontology3.owl, we have a list of names [1,0.75,0.5,0.25] and a list of measures [>= 490, > 421.25 , > 352.5 , > 283.75]. Now, every name corresponds to a new class and every measure should be evaluated. e.g. LongBridge_1 evaluates >= 490 and so on. You should create a new full ontology in OWL Functional Syntax.
+
+Result 4:
+ontology4.owl
+
+------------------------------------------------------------------------------------------------------------
+Fuzzy datatypes
+------------------------------------------------------------------------------------------------------------
+
+Prompt 5:
+We will again use ontology1.owl. The datatype MinLength_100 was inferred, but this specification is not explicitly defined in the ontology. Instead, define a linguistic label where "Long" =unkwo,  "Bridge"=class name, and "Length"=property (e.g., LongBridgeLength). This label must be modeled as a datatype with an appropriate prefix declaration (e.g., sid:LongBridgeLength). Its range may be xsd:string, xsd:decimal, or unspecified. Produce a new complete ontology in OWL Functional Syntax.
+
+Result 5:
+ontology5.owl
+
+
+------------------------------------------------------------------------------------------------------------
+Fuzzy datatypes, example 5: R1
+------------------------------------------------------------------------------------------------------------
+
+Prompt 6:
+Write and represent "Long bridge must be made of a material with a long lifetime” in OWL Functional Syntax. You should create a full ontology.
+
+Result 6:
+ontology1.owl
+
+Prompt 7:
+The evaluation of LongBridge, as presented in the example (ontology5.owl, linguistic label version), is missing. Both the LongBridge concept and the MaterialLifetime attribute must be evaluated. Generate a new complete ontology in OWL Functional Syntax.
+
+Result 7:
+ontology1.owl

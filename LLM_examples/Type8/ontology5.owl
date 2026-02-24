@@ -1,0 +1,77 @@
+Prefix(:=<http://example.org/norms#>)
+Prefix(ifc:=<http://ifcowl.org/IFC2X3_TC1#>)
+Prefix(props:=<http://example.org/props#>)
+Prefix(sid:=<http://example.org/semanticIdentifiers#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(<http://example.org/norms/longbridge-example1-linguistic>
+
+  ############################################
+  # Import IFC ontology
+  ############################################
+  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
+
+  ############################################
+  # Class declarations
+  ############################################
+  Declaration(Class(:Bridge))
+  Declaration(Class(:LongBridge))
+
+  ############################################
+  # Data-property declarations
+  ############################################
+  Declaration(DataProperty(props:length_simple_property))
+  Declaration(DataProperty(props:unit_simple_property))
+
+  ############################################
+  # IFC mapping
+  ############################################
+  SubClassOf(:Bridge ifc:IfcElement)
+
+  ############################################
+  # Property characteristics
+  ############################################
+  FunctionalDataProperty(props:length_simple_property)
+  FunctionalDataProperty(props:unit_simple_property)
+
+  DataPropertyRange(props:length_simple_property rdfs:Literal)
+  DataPropertyRange(props:unit_simple_property xsd:string)
+
+  ############################################
+  # Linguistic datatype definition
+  # "LongBridgeLength" — a conceptual datatype
+  ############################################
+  Declaration(Datatype(sid:LongBridgeLength))
+  AnnotationAssertion(rdfs:label sid:LongBridgeLength "Qualitative datatype representing the concept 'Long Bridge Length' (no explicit numeric value)"@en)
+
+  ############################################
+  # Definition of LongBridge
+  # A LongBridge is a Bridge whose length property
+  # has a value of datatype sid:LongBridgeLength.
+  ############################################
+  EquivalentClasses(:LongBridge
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_simple_property sid:LongBridgeLength)
+    )
+  )
+
+  ############################################
+  # Optional: allow specifying a qualitative unit
+  ############################################
+  SubClassOf(:LongBridge
+    DataHasValue(props:unit_simple_property "unknown"^^xsd:string)
+  )
+
+  ############################################
+  # Labels and documentation
+  ############################################
+  AnnotationAssertion(rdfs:label :Bridge "Bridge (IfcElement)"@en)
+  AnnotationAssertion(rdfs:label :LongBridge "Bridge with a long (qualitative) length"@en)
+  AnnotationAssertion(rdfs:comment :LongBridge "This class expresses the linguistic norm 'bridges with a long length' where 'long' is not quantitatively defined. The qualitative meaning is captured by the datatype sid:LongBridgeLength."@en)
+  AnnotationAssertion(rdfs:label props:length_simple_property "Length property (may be numeric or qualitative)"@en)
+  AnnotationAssertion(rdfs:label props:unit_simple_property "Unit property (string, may be 'unknown')"@en)
+
+)

@@ -1,0 +1,96 @@
+Prefix(:=<http://example.org/norms#>)
+Prefix(ifc:=<http://ifcowl.org/IFC2X3_TC1#>)
+Prefix(props:=<http://example.org/props#>)
+Prefix(obj:=<http://example.org/obj#>)
+Prefix(sid:=<http://example.org/semanticIdentifiers#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(<http://example.org/norms/longbridge-material-lifetime>
+
+  ############################################
+  # Import IFC ontology
+  ############################################
+  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
+
+  ############################################
+  # Declarations: Classes
+  ############################################
+  Declaration(Class(:Bridge))
+  Declaration(Class(:LongBridge))
+  Declaration(Class(:Material))
+  Declaration(Class(:LongLifetimeMaterial))
+  Declaration(Class(:ValidLongBridge))
+
+  ############################################
+  # Object Properties
+  ############################################
+  Declaration(ObjectProperty(obj:madeOf))
+
+  ############################################
+  # Data Properties
+  ############################################
+  Declaration(DataProperty(props:lifetime_simple_property))
+
+  ############################################
+  # Linguistic datatype definition
+  ############################################
+  Declaration(Datatype(sid:LongLifetime))
+  AnnotationAssertion(rdfs:label sid:LongLifetime "Qualitative datatype representing a 'long lifetime' (no explicit numeric duration)"@en)
+
+  ############################################
+  # IFC Alignment
+  ############################################
+  SubClassOf(:Bridge ifc:IfcElement)
+  SubClassOf(:Material ifc:IfcMaterial)
+
+  ############################################
+  # Property Characteristics
+  ############################################
+  FunctionalDataProperty(props:lifetime_simple_property)
+  DataPropertyRange(props:lifetime_simple_property rdfs:Literal)
+  ObjectPropertyDomain(obj:madeOf :Bridge)
+  ObjectPropertyRange(obj:madeOf :Material)
+
+  ############################################
+  # Qualitative class definitions
+  ############################################
+  EquivalentClasses(:LongBridge
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:lifetime_simple_property sid:LongLifetime)
+    )
+  )
+
+  EquivalentClasses(:LongLifetimeMaterial
+    ObjectIntersectionOf(
+      :Material
+      DataSomeValuesFrom(props:lifetime_simple_property sid:LongLifetime)
+    )
+  )
+
+  ############################################
+  # Norm formalization:
+  # "A long bridge must be made of a material with a long lifetime"
+  ############################################
+  EquivalentClasses(:ValidLongBridge
+    ObjectIntersectionOf(
+      :LongBridge
+      ObjectSomeValuesFrom(obj:madeOf :LongLifetimeMaterial)
+    )
+  )
+
+  ############################################
+  # Labels and comments
+  ############################################
+  AnnotationAssertion(rdfs:label :Bridge "Bridge (IfcElement)"@en)
+  AnnotationAssertion(rdfs:label :LongBridge "Long bridge (qualitative concept)"@en)
+  AnnotationAssertion(rdfs:label :Material "Material (IfcMaterial)"@en)
+  AnnotationAssertion(rdfs:label :LongLifetimeMaterial "Material with a long lifetime"@en)
+  AnnotationAssertion(rdfs:label :ValidLongBridge "Valid long bridge — made of a material with a long lifetime"@en)
+  AnnotationAssertion(rdfs:label obj:madeOf "made of (relation between bridge and material)"@en)
+  AnnotationAssertion(rdfs:label props:lifetime_simple_property "Lifetime property (qualitative or numeric)"@en)
+  AnnotationAssertion(rdfs:comment :ValidLongBridge "Formalization of the norm: 'Long bridge must be made of a material with a long lifetime'. Uses linguistic datatype sid:LongLifetime for qualitative interpretation."@en)
+
+)

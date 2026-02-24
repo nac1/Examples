@@ -1,0 +1,128 @@
+Prefix(:=<http://example.org/norms#>)
+Prefix(ifc:=<http://ifcowl.org/IFC2X3_TC1#>)
+Prefix(props:=<http://example.org/props#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(<http://example.org/norms/longbridge-example3-parametric>
+
+  ############################################
+  # Import IFC ontology
+  ############################################
+  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
+
+  ############################################
+  # Core classes
+  ############################################
+  Declaration(Class(:Bridge))
+  Declaration(Class(:LongBridge))
+  Declaration(Class(:LongBridge_1))
+  Declaration(Class(:LongBridge_0_75))
+  Declaration(Class(:LongBridge_0_5))
+  Declaration(Class(:LongBridge_0_25))
+
+  ############################################
+  # Data properties
+  ############################################
+  Declaration(DataProperty(props:length_core_simple_property))
+  Declaration(DataProperty(props:unit_simple_property))
+
+  ############################################
+  # IFC alignment
+  ############################################
+  SubClassOf(:Bridge ifc:IfcElement)
+
+  ############################################
+  # Property characteristics
+  ############################################
+  FunctionalDataProperty(props:length_core_simple_property)
+  FunctionalDataProperty(props:unit_simple_property)
+
+  DataPropertyRange(props:length_core_simple_property xsd:decimal)
+  DataPropertyRange(props:unit_simple_property xsd:string)
+
+  ############################################
+  # Datatype restrictions for thresholds
+  ############################################
+  Declaration(Datatype(:MinLength_490))
+  DatatypeDefinition(:MinLength_490
+    DatatypeRestriction(xsd:decimal xsd:minInclusive "490.0"^^xsd:decimal)
+  )
+
+  Declaration(Datatype(:MinLength_421_25))
+  DatatypeDefinition(:MinLength_421_25
+    DatatypeRestriction(xsd:decimal xsd:minExclusive "421.25"^^xsd:decimal)
+  )
+
+  Declaration(Datatype(:MinLength_352_5))
+  DatatypeDefinition(:MinLength_352_5
+    DatatypeRestriction(xsd:decimal xsd:minExclusive "352.5"^^xsd:decimal)
+  )
+
+  Declaration(Datatype(:MinLength_283_75))
+  DatatypeDefinition(:MinLength_283_75
+    DatatypeRestriction(xsd:decimal xsd:minExclusive "283.75"^^xsd:decimal)
+  )
+
+  ############################################
+  # Individual bridge-length classes
+  ############################################
+  EquivalentClasses(:LongBridge_1
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_core_simple_property :MinLength_490)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  EquivalentClasses(:LongBridge_0_75
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_core_simple_property :MinLength_421_25)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  EquivalentClasses(:LongBridge_0_5
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_core_simple_property :MinLength_352_5)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  EquivalentClasses(:LongBridge_0_25
+    ObjectIntersectionOf(
+      :Bridge
+      DataSomeValuesFrom(props:length_core_simple_property :MinLength_283_75)
+      DataHasValue(props:unit_simple_property "meters"^^xsd:string)
+    )
+  )
+
+  ############################################
+  # Composite superclass definition
+  # LongBridge ≡ LongBridge_1 ⊔ LongBridge_0_75 ⊔ LongBridge_0_5 ⊔ LongBridge_0_25
+  ############################################
+  EquivalentClasses(:LongBridge
+    ObjectUnionOf(
+      :LongBridge_1
+      :LongBridge_0_75
+      :LongBridge_0_5
+      :LongBridge_0_25
+    )
+  )
+
+  ############################################
+  # Labels / documentation
+  ############################################
+  AnnotationAssertion(rdfs:label :Bridge "Bridge"@en)
+  AnnotationAssertion(rdfs:label :LongBridge "General class of bridges with long length (≥283.75 m up to ≥490 m)"@en)
+  AnnotationAssertion(rdfs:label :LongBridge_1 "LongBridge_1 — bridges with length ≥ 490 m"@en)
+  AnnotationAssertion(rdfs:label :LongBridge_0_75 "LongBridge_0.75 — bridges with length > 421.25 m"@en)
+  AnnotationAssertion(rdfs:label :LongBridge_0_5 "LongBridge_0.5 — bridges with length > 352.5 m"@en)
+  AnnotationAssertion(rdfs:label :LongBridge_0_25 "LongBridge_0.25 — bridges with length > 283.75 m"@en)
+  AnnotationAssertion(rdfs:label props:length_core_simple_property "Core length property (decimal meters)"@en)
+  AnnotationAssertion(rdfs:label props:unit_simple_property "Unit property (expected 'meters')"@en)
+
+)

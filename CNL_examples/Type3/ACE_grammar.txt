@@ -1,0 +1,15 @@
+ACE grammar:
+Each door can have at most one width property and can have at most one height property.
+
+ACE message: 
+Text could not be translated. It cannot be express in OWL/SWRL.
+
+
+ACE grammar: 
+The range of width property is decimal.
+
+ACE grammar: 
+The range of heght property is decimal.
+
+ACE message: 
+Text could not be translated.
