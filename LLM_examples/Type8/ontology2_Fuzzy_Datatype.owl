@@ -17,6 +17,7 @@ Declaration(Class(ifc:IfcElement))
 Declaration(DataProperty(props:length_simple_property))
 Declaration(Datatype(sid:LongBridgeLength))
 
+
 ############################
 #   Data Properties
 ############################
@@ -33,8 +34,11 @@ DataPropertyRange(props:length_simple_property rdfs:Literal)
 
 # Datatype: sid:LongBridgeLength (sid:LongBridgeLength)
 
-DatatypeDefinition(sid:LongBridgeLength xsd:decimal)
+AnnotationAssertion(:fuzzyLabel sid:LongBridgeLength "<fuzzyOwl2 fuzzyType=\"datatype\">
+<Datatype type=\"rightshoulder\" a=\"215\" b=\"490\" />
+</fuzzyOwl2>")
 
+DatatypeDefinition(sid:LongBridgeLength DatatypeRestriction(xsd:decimal xsd:minInclusive "-1"^^xsd:decimal xsd:maxInclusive "1000"^^xsd:decimal))
 
 ############################
 #   Classes

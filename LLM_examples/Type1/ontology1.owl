@@ -8,11 +8,6 @@ Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
 Ontology(<http://example.org/norms/valid-bathrooms>
 
   ############################################
-  # Imports (ifcOWL for IFC classes - adjust path/IRI to your setup)
-  ############################################
-  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
-
-  ############################################
   # Declarations: classes
   ############################################
   Declaration(Class(:Bathroom))

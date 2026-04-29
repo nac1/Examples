@@ -8,11 +8,6 @@ Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
 Ontology(<http://example.org/norms/valid-homes-by-rooms>
 
   ############################################
-  # Import IFC ontology
-  ############################################
-  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
-
-  ############################################
   # Declarations: Classes
   ############################################
   Declaration(Class(:Home))

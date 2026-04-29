@@ -1,2 +1,0 @@
-ACE grammar: 
-Every track is a element that have two trackside_Walways.

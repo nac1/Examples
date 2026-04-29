@@ -9,11 +9,6 @@ Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
 Ontology(<http://example.org/norms/valid-practicable-spaces-extended>
 
   ############################################
-  # Import IFC ontology
-  ############################################
-  Import(<file:///mnt/data/ifcowl_IFC2X3_TC1.ttl>)
-
-  ############################################
   # Classes
   ############################################
   Declaration(Class(:PracticableSpace))
